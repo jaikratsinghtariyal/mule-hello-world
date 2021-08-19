@@ -1,4 +1,0 @@
-2021-07-31 23:29:38,250 [main] INFO  org.mule.munit.remote.RemoteRunner - Run Started
-2021-07-31 23:29:43,295 [main] INFO  org.mule.munit.remote.coverage.CoverageManager - Shutting down coverage server
-2021-07-31 23:29:43,296 [main] INFO  org.mule.munit.remote.coverage.CoverageManager - Calculating application coverage
-2021-07-31 23:29:43,306 [main] INFO  org.mule.munit.remote.RemoteRunner - Done
