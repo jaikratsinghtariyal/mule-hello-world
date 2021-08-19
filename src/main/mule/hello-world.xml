@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<configuration-properties doc:name="Configuration properties" file="mule-artifact.properties" />
+
+	<http:listener-config name="HTTP_Listener_config"
+		doc:name="HTTP Listener config"
+		doc:id="d6132ed6-b549-4a5a-ab30-b0006362476b">
+		<http:listener-connection host="localhost"
+			port="8083" />
+	</http:listener-config>
+
+	<http:request-config
+		name="HTTP_Request_configuration1"
+		doc:name="HTTP Request configuration"
+		doc:id="7efd270b-a60d-4f5b-8ac8-b3a09449e488" 
+		basePath="/mul">
+		<http:request-connection host="spring-boot-k8s.herokuapp.com"
+			protocol="HTTPS"/>
+	</http:request-config>
+
+	<flow name="hello-worldFlow"
+		doc:id="fb709ee4-0263-492c-92e3-ba5bb6287cd7">
+		<http:listener doc:name="Listener"
+			doc:id="b4f5d981-3869-46e4-879b-2ba9e8e1c2b7"
+			config-ref="HTTP_Listener_config" path="/helloWorld" allowedMethods="GET"/>
+		<http:request method="GET" doc:name="Request"
+			doc:id="f01084b6-58e1-4c02-8435-c4c3ba2800bd"
+			config-ref="HTTP_Request_configuration1" path="/">
+			<http:query-params><![CDATA[#[output application/java
+						---
+						{
+							"first" : "message.attributes.queryParams['first']",
+							"second" : "message.attributes.queryParams['second']"
+						}]]]>
+			</http:query-params>
+		</http:request>
+	</flow>
+</mule>
